@@ -24,7 +24,13 @@
 
 <h3 class="usedcars">Выбрать автомобиль с пробегом</h3>
 
-
+<div class="brand">
+    {% for i in brands %}
+    <ul>
+        <li>{{ i }}</li>
+    </ul>
+    {% endfor %}
+</div>
 
 </body>
 </html>

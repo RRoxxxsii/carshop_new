@@ -1,10 +1,11 @@
 from django.db import models
 
 
-#Основная таблица
+# Основная таблица
 class Car(models.Model):
     model_name = models.CharField(max_length=50)
     price = models.PositiveIntegerField()
+    photo = models.ImageField(upload_to="photos/%Y/%m/%d/")
     brand = models.ForeignKey('Brand', on_delete=models.CASCADE)
     body = models.ForeignKey('Body', on_delete=models.CASCADE)
     drive = models.ForeignKey('Drive', on_delete=models.CASCADE)
@@ -13,9 +14,9 @@ class Car(models.Model):
     fuel = models.ForeignKey('FuelType', on_delete=models.CASCADE)
     wheel = models.ForeignKey('SteeringWheel', on_delete=models.CASCADE)
     dealership = models.ForeignKey('Address', on_delete=models.CASCADE)
-    engine = models.PositiveIntegerField()
+    engine = models.DecimalField(max_digits=3, decimal_places=1)
     year = models.PositiveIntegerField()
-    owners = models.PositiveIntegerField(max_length=3)
+    owners = models.PositiveIntegerField()
     power = models.PositiveIntegerField()
 
     def __str__(self):
@@ -27,7 +28,7 @@ class Car(models.Model):
 
 # Базовые таблицы
 class Brand(models.Model):
-    brand_name = models.CharField(max_length=50)
+    brand_name = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
         return self.brand_name
@@ -37,7 +38,7 @@ class Brand(models.Model):
 
 
 class Body(models.Model):
-    body_name = models.CharField(max_length=55)
+    body_name = models.CharField(max_length=55, unique=True)
 
     def __str__(self):
         return self.body_name
@@ -47,7 +48,7 @@ class Body(models.Model):
 
 
 class Drive(models.Model):
-    drive_name = models.CharField(max_length=55)
+    drive_name = models.CharField(max_length=55, unique=True)
 
     def __str__(self):
         return self.drive_name
@@ -57,7 +58,7 @@ class Drive(models.Model):
 
 
 class Transmission(models.Model):
-    transmission_name = models.CharField(max_length=60)
+    transmission_name = models.CharField(max_length=60, unique=True)
 
     def __str__(self):
         return self.transmission_name
@@ -67,7 +68,7 @@ class Transmission(models.Model):
 
 
 class Color(models.Model):
-    color_name = models.CharField(max_length=60)
+    color_name = models.CharField(max_length=60, unique=True)
 
     def __str__(self):
         return self.color_name
@@ -77,16 +78,18 @@ class Color(models.Model):
 
 
 class SteeringWheel(models.Model):
-    wheel = models.CharField(max_length=50)
+    wheel = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
         return self.wheel
 
     class Meta:
         verbose_name = 'Руль'
+        verbose_name_plural = 'Рули'
+
 
 class FuelType(models.Model):
-    fuel = models.CharField(max_length=50)
+    fuel = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
         return self.fuel
@@ -94,6 +97,7 @@ class FuelType(models.Model):
     class Meta:
         verbose_name = 'Топливо'
         verbose_name_plural = 'Топливо'
+
 
 class Address(models.Model):
     dealership = models.CharField(max_length=200)
